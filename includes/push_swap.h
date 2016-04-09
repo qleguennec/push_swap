@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/04/09 18:37:38 by qle-guen         ###   ########.fr       */
+/*   Created: 2016/04/09 17:08:52 by qle-guen          #+#    #+#             */
+/*   Updated: 2016/04/09 18:34:40 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-static int	err(void)
-{
-	ft_putendl("Error");
-	return (1);
-}
+#include <libft.h>
 
-int			main(int argc, char **argv)
-{
-	t_stack	*a;
-	t_stack	*b;
+typedef long			t_elem;
+typedef t_list			t_stack;
 
-	if (!(a = build_stack(argc, argv)))
-		return err();
-	b = NULL;
-	display_stack(a);
-	return (0);
-}
+#define ELEM_SIZE sizeof(t_elem)
+
+t_stack					*build_stack(int argc, char **argv);
+void					display_stack(t_stack *s);
+
+#endif
