@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 20:10:57 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/04/09 23:19:56 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/04/09 23:23:12 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		stack_rotate
 void		stack_rev_rotate
 	(t_stack **s)
 {
-	if (!*s)
+	if (!*s || !(*s)->next)
 		return ;
 	if ((*s)->next->next)
 		stack_rev_rotate(&(*s)->next);
