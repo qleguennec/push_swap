@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/04/09 18:37:38 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/04/09 22:03:36 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,22 @@ int			main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
+	char	**start;
+	int		d;
 
-	if (!(a = build_stack(argc, argv)))
+	if (argc < 2)
+		err();
+	if (ft_strequ(argv[1], "-d"))
+	{
+		d = 1;
+		start = argv + 2;
+	}
+	else
+		start = argv + 1;
+	if (!(a = build_stack(start, argv + argc - 1)))
 		return err();
 	b = NULL;
-	display_stack(a);
+	if (d)
+		return (debug(&a, &b));
 	return (0);
 }
