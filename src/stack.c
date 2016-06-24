@@ -6,16 +6,16 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 20:10:57 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/04/09 23:23:12 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/24 21:46:27 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
 void		stack_swap
-	(t_stack **s)
+	(t_list **s)
 {
-	t_stack	*buf;
+	t_list	*buf;
 
 	if (!*s || !(*s)->next)
 		return ;
@@ -26,9 +26,9 @@ void		stack_swap
 }
 
 void		stack_push
-	(t_stack **a, t_stack **b)
+	(t_list **a, t_list **b)
 {
-	t_stack	*elem;
+	t_list	*elem;
 
 	if (!*a)
 		return ;
@@ -39,7 +39,7 @@ void		stack_push
 }
 
 void		stack_rotate
-	(t_stack **s)
+	(t_list **s)
 {
 	if (!*s)
 		return ;
@@ -51,7 +51,7 @@ void		stack_rotate
 }
 
 void		stack_rev_rotate
-	(t_stack **s)
+	(t_list **s)
 {
 	if (!*s || !(*s)->next)
 		return ;

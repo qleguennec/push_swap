@@ -7,8 +7,9 @@ LIBDIR		?=	$(BUILDDIR)
 DEPSDIR		?=	lib
 INCLUDE		+=	includes
 INCLUDE		+=	$(addprefix $(DEPSDIR)/,$(addsuffix /includes,$(LIBSRC)))
-NAME		=	push_swap
-TARGET		=	$(BINDIR)/$(NAME)
+CHECKER		=	checker
+PUSH_SWAP	=	push_swap
+NAME		=	$(CHECKER) $(PUSH_SWAP)
 
 # Compiler options
 CC			=	clang
@@ -26,7 +27,6 @@ CYAN		=	"\033[0;36m"
 WHITE		=	"\033[0;37m"
 END			=	"\033[0m"
 
-# Source files
 include src.mk
 
 # Libraries
@@ -35,11 +35,11 @@ LIBSRC		=	libft
 OBJECTS		=	$(addprefix $(BUILDDIR)/, $(SRC:%.c=%.o))
 LIBS		=	$(addprefix $(LIBDIR)/, $(addsuffix .a,$(LIBSRC)))
 
-all: deps $(TARGET)
+all: deps $(NAME)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	@[ -d $(BUILDDIR) ] || mkdir $(BUILDDIR); true
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 	@echo $(GREEN)+++ obj:'\t'$(END)$(BUILDDIR)/$(YELLOW)'\t'$(@F)$(END)
 
 $(LIBDIR)/%.a: $(DEPSDIR)/%
@@ -52,8 +52,12 @@ $(LIBDIR)/%.a: $(DEPSDIR)/%
 		make -s -C $< > /dev/null
 	@echo $(GREEN)+++ static lib:'\t'$(END)$(LIBDIR)/'\t'$(CYAN)$(@F)$(END)
 
-$(TARGET): $(OBJECTS) $(LIBS)
-	@$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(LIBFLAGS) -o $@
+$(PUSH_SWAP): $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBS)
+	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBFLAGS) -o $@
+	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END)
+
+$(CHECKER): $(OBJECTS) $(BUILDDIR)/checker.o $(LIBS)
+	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/checker.o $(LIBFLAGS) -o $@
 	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END)
 
 $(DEPSDIR)/%:
@@ -67,9 +71,10 @@ clean:
 	echo $(RED)--- static lib:'\t'$(END)$(LIBDIR)/'\t'$(CYAN)$(LIBS:$(LIBDIR)/%.a=%.a); true
 	@rm $(OBJECTS) 2> /dev/null	\
 	&& echo $(RED)--- obj:'\t'$(END)$(BUILDDIR)/'\t'$(YELLOW)$(OBJECTS:$(BUILDDIR)/%=%)$(END); true
+	@rm -rf $(BUILDDIR)
 
 fclean: clean
-	@[ -f $(TARGET) ] && rm $(TARGET) \
+	@[ -f $(NAME) ] && rm $(NAME) \
 	&& echo $(RED)--- target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END); true
 
 re: fclean all

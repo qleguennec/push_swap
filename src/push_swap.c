@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_stack.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/04/09 18:34:50 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/24 21:46:49 by qle-guen         ###   ########.fr       */
+/*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
+/*   Updated: 2016/06/24 21:46:56 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-void		display_stack
-	(t_list *s)
+static int	err
+	(void)
 {
-	if (!s)
-	{
-		ft_putchar('\n');
-		return ;
-	}
-	while (s)
-	{
-		ft_putnbr((int)s->data);
-		if (s->next)
-			ft_putchar(' ');
-		else
-			ft_putchar('\n');
-		s = s->next;
-	}
+	ft_putendl("Error");
+	return (1);
+}
+
+int			main
+	(int argc, char **argv)
+{
+	t_list	*a;
+	t_list	*b;
+	char	**start;
+
+	if (argc < 2)
+		err();
+	start = argv + 1;
+	if (!(a = build_stack(start, argv + argc - 1)))
+		return (err());
+	b = NULL;
+	return (0);
 }

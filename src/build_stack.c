@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/04/09 19:59:22 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/24 21:57:25 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include <limits.h>
 
 static int		isvalid_value
-	(t_elem x)
+	(long x)
 {
 	return (x >= INT_MIN && x <= INT_MAX);
 }
 
-static t_elem	atol
+static long		atol
 	(char *s)
 {
 	size_t		pow;
-	t_elem		ret;
+	long		ret;
 	int			neg;
 
 	ret = 0;
@@ -34,7 +34,7 @@ static t_elem	atol
 	while (*s)
 	{
 		if (!ft_isdigit(*s))
-			return ((t_elem)INT_MAX + 1);
+			return ((long)INT_MAX + 1);
 		ret += pow * (*s - '0');
 		pow /= 10;
 		s++;
@@ -42,11 +42,11 @@ static t_elem	atol
 	return (neg ? - ret : ret);
 }
 
-t_stack			*build_stack
+t_list			*build_stack
 	(char **start, char **end)
 {
 	t_list		*l;
-	t_stack		*ret;
+	t_list		*ret;
 
 	ret = NULL;
 	while (end >= start)
@@ -55,8 +55,8 @@ t_stack			*build_stack
 			return (NULL);
 		if (!(l = ft_memalloc(sizeof(*l))))
 			return (NULL);
-		l->content = (void *)atol(*end);
-		if (!isvalid_value((t_elem)l->content))
+		l->data = (void *)atol(*end);
+		if (!isvalid_value((long)l->data))
 			return (NULL);
 		ft_lstadd(&ret, l);
 		end--;
