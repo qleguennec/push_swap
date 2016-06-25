@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 18:34:50 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 03:08:01 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/25 15:17:07 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		display_stack
 	}
 	while (s)
 	{
-		ft_putnbr((int)s->data);
+		ft_putnbr(*((long *)s->data));
 		if (s->next)
 			ft_putchar(' ');
 		else
@@ -34,8 +34,8 @@ void		display_stack
 void		display_both_stacks
 	(t_list *a, t_list *b)
 {
-	ft_putstr("A: ");
+	ft_putstr("\t");
 	display_stack(a);
-	ft_putstr("B: ");
+	ft_putstr("\t");
 	display_stack(b);
 }

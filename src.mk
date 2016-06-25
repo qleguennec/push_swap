@@ -6,4 +6,5 @@ SRC += display_stack.c
 SRC += build_stack.c
 SRC += apply_stack_op.c
 SRC += check_sorted.c
+SRC += check_lcmp.c
 SRC += lcmp.c

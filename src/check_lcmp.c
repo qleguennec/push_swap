@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_ops_combined.c                               :+:      :+:    :+:   */
+/*   check_lcmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/24 22:43:43 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 09:24:51 by qle-guen         ###   ########.fr       */
+/*   Created: 2016/06/25 09:43:00 by qle-guen          #+#    #+#             */
+/*   Updated: 2016/06/25 09:46:07 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-int			stack_ss
-	(t_list **a, t_list **b)
+int			check_lcmp
+	(int x, t_list *a, t_list *cmp)
 {
-	return (stack_s(a, NULL) + stack_s(b, NULL));
-}
-
-int			stack_rr
-	(t_list **a, t_list **b)
-{
-	return (stack_r(a, NULL) + stack_r(b, NULL));
-}
-
-int			stack_rev_rr
-	(t_list **a, t_list **b)
-{
-	return (stack_rev_r(a, NULL) + stack_rev_r(b, NULL));
+	if (!a)
+		return (1);
+	if (x != lcmp(a, cmp))
+		return (0);
+	return (check_lcmp(x, a->next, cmp));
 }
