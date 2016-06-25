@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/24 21:57:25 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/25 02:14:42 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int		isvalid_value
 	return (x >= INT_MIN && x <= INT_MAX);
 }
 
-static long		atol
+static long		ft_atol
 	(char *s)
 {
 	size_t		pow;
@@ -43,23 +43,17 @@ static long		atol
 }
 
 t_list			*build_stack
-	(char **start, char **end)
+	(char **arg)
 {
 	t_list		*l;
-	t_list		*ret;
 
-	ret = NULL;
-	while (end >= start)
-	{
-		if (ft_strlen(*end) > 11)
-			return (NULL);
-		if (!(l = ft_memalloc(sizeof(*l))))
-			return (NULL);
-		l->data = (void *)atol(*end);
-		if (!isvalid_value((long)l->data))
-			return (NULL);
-		ft_lstadd(&ret, l);
-		end--;
-	}
-	return (ret);
+	if (!*arg)
+		return (NULL);
+	if (!(l = ft_memalloc(sizeof(*l))))
+		ps_exit();
+	l->data = (void *)ft_atol(*arg);
+	if (!isvalid_value((long)l->data))
+		ps_exit();
+	l->next = build_stack(arg + 1);
+	return (l);
 }

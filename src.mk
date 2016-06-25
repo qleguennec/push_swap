@@ -1,3 +1,9 @@
+SRC += sort_quicksort.c
+SRC += ps_exit.c
+SRC += stack_ops.c
+SRC += stack_ops_combined.c
 SRC += display_stack.c
 SRC += build_stack.c
-SRC += stack.c
+SRC += apply_stack_op.c
+SRC += check_sorted.c
+SRC += lcmp.c

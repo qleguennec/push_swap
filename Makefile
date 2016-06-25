@@ -30,7 +30,7 @@ END			=	"\033[0m"
 include src.mk
 
 # Libraries
-LIBSRC		=	libft
+LIBSRC		=	libgnl libvect libft
 
 OBJECTS		=	$(addprefix $(BUILDDIR)/, $(SRC:%.c=%.o))
 LIBS		=	$(addprefix $(LIBDIR)/, $(addsuffix .a,$(LIBSRC)))
@@ -54,11 +54,11 @@ $(LIBDIR)/%.a: $(DEPSDIR)/%
 
 $(PUSH_SWAP): $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBS)
 	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBFLAGS) -o $@
-	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END)
+	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)push_swap$(END)
 
 $(CHECKER): $(OBJECTS) $(BUILDDIR)/checker.o $(LIBS)
 	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/checker.o $(LIBFLAGS) -o $@
-	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END)
+	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)checker$(END)
 
 $(DEPSDIR)/%:
 	@git clone http://github.com/qleguennec/$(@F).git $@
@@ -67,15 +67,14 @@ $(DEPSDIR)/%:
 .PHONY: clean fclean re deps clean-deps re-deps test rendu purge get-%
 
 clean:
-	@rm $(LIBS) 2> /dev/null &&	\
+	@rm $(LIBS) 2> /dev/null && \
 	echo $(RED)--- static lib:'\t'$(END)$(LIBDIR)/'\t'$(CYAN)$(LIBS:$(LIBDIR)/%.a=%.a); true
-	@rm $(OBJECTS) 2> /dev/null	\
-	&& echo $(RED)--- obj:'\t'$(END)$(BUILDDIR)/'\t'$(YELLOW)$(OBJECTS:$(BUILDDIR)/%=%)$(END); true
-	@rm -rf $(BUILDDIR)
+	@rm $(OBJECTS) 2> /dev/null	&& \
+	echo $(RED)--- obj:'\t'$(END)$(BUILDDIR)/'\t'$(YELLOW)$(OBJECTS:$(BUILDDIR)/%=%)$(END); true
 
 fclean: clean
-	@[ -f $(NAME) ] && rm $(NAME) \
-	&& echo $(RED)--- target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END); true
+	@rm -rf $(NAME) 2> /dev/null && \
+	echo $(RED)--- target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END); true
 
 re: fclean all
 
