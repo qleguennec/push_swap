@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:08:52 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 14:40:36 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 21:32:19 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,25 @@
 # include <libft.h>
 # include <libvect.h>
 # include <stdio.h>
+# include <assert.h>
+
+typedef struct		s_lst
+{
+	int				data;
+	struct s_lst	*prev;
+	struct s_lst	*next;
+}					t_lst;
+
+typedef struct		s_stack
+{
+	t_lst			*head;
+	t_lst			*last;
+}					t_stack;
 
 typedef struct		s_stack_op
 {
 	char			name[4];
-	int				(*f)(t_list **, t_list **);
+	int				(*f)(t_stack *, t_stack *);
 	unsigned int	arg_order : 1;
 }					t_stack_op;
 
@@ -32,25 +46,25 @@ typedef struct		s_ps_conf
 }					t_ps_conf;
 
 void				ps_exit(void);
-t_list				*build_stack(char **arg);
-void				display_stack(t_list *s);
-void				display_both_stacks(t_list *a, t_list *b);
+t_stack				*build_stack(char **arg);
+void				display_stack(t_stack *s);
+void				display_both_stacks(t_stack *a, t_stack *b);
 int					apply_stack_op
-(t_stack_op *op, t_list **a, t_list **b, t_ps_conf *c);
+(t_stack_op *op, t_stack *a, t_stack *b, t_ps_conf *c);
 int					apply
-	(unsigned long n, t_list **a, t_list **b, t_ps_conf *c);
-int					stack_s(t_list **s, t_list **null);
-int					stack_ss(t_list **a, t_list **b);
-int					stack_r(t_list **s, t_list **null);
-int					stack_rr(t_list **a, t_list **b);
-int					stack_rev_r(t_list **s, t_list **null);
-int					stack_rev_rr(t_list **a, t_list **b);
-int					stack_p(t_list **a, t_list **b);
-int					lcmp(t_list *a, t_list *b);
-int					check_sorted(t_list *a);
-int					check_revsorted(t_list *a);
-int					check_lcmp(int x, t_list *a, t_list *cmp);
-int					sort_quicksort(t_list **a, t_list **b, t_ps_conf *c);
+	(unsigned long n, t_stack *a, t_stack *b, t_ps_conf *c);
+int					stack_s(t_stack *s, t_stack *null);
+int					stack_ss(t_stack *a, t_stack *b);
+int					stack_r(t_stack *s, t_stack *null);
+int					stack_rr(t_stack *a, t_stack *b);
+int					stack_rev_r(t_stack *s, t_stack *null);
+int					stack_rev_rr(t_stack *a, t_stack *b);
+int					stack_p(t_stack *a, t_stack *b);
+int					lcmp(t_lst *a, t_lst *b);
+int					check_sorted(t_lst *a);
+int					check_revsorted(t_lst *a);
+int					check_lcmp(int x, t_lst *a, t_lst *cmp);
+int					sort_quicksort(t_stack *a, t_stack *b, t_ps_conf *c);
 
 # define OP(x)	apply(x, a, b, c)
 # define PA		0

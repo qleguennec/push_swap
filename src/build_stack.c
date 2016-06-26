@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 15:13:35 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 20:49:48 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,30 @@ static long		ft_atol
 	return (neg ? - ret : ret);
 }
 
-t_list			*build_stack
+t_stack			*build_stack
 	(char **arg)
 {
-	t_list		*l;
+	t_stack		*s;
+	t_lst		*l;
 	long		x;
 
-	if (!*arg)
-		return (NULL);
-	x = ft_atol(*arg);
-	if (!isvalid_value(x))
+	if (!(s = ft_memalloc(sizeof(*s))))
 		ps_exit();
-	if (!(l = ft_lstnew(&x, sizeof(x))))
-		ps_exit();
-	l->next = build_stack(arg + 1);
-	return (l);
+	while (*arg)
+	{
+		x = ft_atol(*arg);
+		if (!isvalid_value(x))
+			ps_exit();
+		l = s->last;
+		if (!(s->last = ft_memalloc(sizeof(*l))))
+			ps_exit();
+		s->last->data = (int)x;
+		if (!s->head)
+			s->head = l;
+		if (l)
+			l->next = s->last;
+		s->last->prev = l;
+		arg++;
+	}
+	return (s);
 }

@@ -6,33 +6,45 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 18:34:50 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 15:17:07 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 22:41:09 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+// remove assertions and reverse print
+
+#include <push_swap.h>
 
 void		display_stack
-	(t_list *s)
+	(t_stack *s)
 {
-	if (!s)
+	t_lst	*start;
+	t_lst	*end;
+
+	assert(s);
+	if (!s->head)
 	{
+		assert(!s->last);
 		ft_putchar('\n');
 		return ;
 	}
-	while (s)
+	start = s->head;
+	end = s->last;
+	while (start)
 	{
-		ft_putnbr(*((long *)s->data));
-		if (s->next)
-			ft_putchar(' ');
-		else
-			ft_putchar('\n');
-		s = s->next;
+		ft_putnbr(start->data);
+		ft_putchar(start->next ? ' ' : '\t');
+		start = start->next;
+	}
+	while (end)
+	{
+		ft_putnbr(end->data);
+		ft_putchar(end->prev ? ' ' : '\n');
+		end = end->prev;
 	}
 }
 
 void		display_both_stacks
-	(t_list *a, t_list *b)
+	(t_stack *a, t_stack *b)
 {
 	ft_putstr("\t");
 	display_stack(a);

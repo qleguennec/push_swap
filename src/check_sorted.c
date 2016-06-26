@@ -6,14 +6,14 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/25 02:55:47 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 10:33:41 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 20:48:35 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
 int			check_sorted
-	(t_list *a)
+	(t_lst *a)
 {
 	if (!a)
 		a = a->next;
@@ -25,7 +25,7 @@ int			check_sorted
 }
 
 int			check_revsorted
-	(t_list *a)
+	(t_lst *a)
 {
 	if (!a)
 		a = a->next;

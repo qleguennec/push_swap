@@ -6,14 +6,14 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/24 23:05:24 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 10:06:57 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 21:39:51 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
 int					apply_stack_op
-	(t_stack_op *op, t_list **a, t_list **b, t_ps_conf *c)
+	(t_stack_op *op, t_stack *a, t_stack *b, t_ps_conf *c)
 {
 	int				log;
 
@@ -21,16 +21,16 @@ int					apply_stack_op
 		log = op->f(a, b);
 	else
 		log = op->f(b, a);
-	if (log && c && !vect_add(c->log, op, sizeof(*op)))
+	if (log && c && !vect_mset_end(c->log, 0, 1))
 		ps_exit();
 	ft_putstr(op->name);
 	ft_putendl(log ? "" : " not performed");
-	display_both_stacks(*a, *b);
+	display_both_stacks(a, b);
 	return (log);
 }
 
 int					apply
-	(unsigned long n, t_list **a, t_list **b, t_ps_conf *c)
+	(unsigned long n, t_stack *a, t_stack *b, t_ps_conf *c)
 {
 	t_stack_op		*op;
 	unsigned int	times;

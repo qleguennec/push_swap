@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/25 03:07:01 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/26 21:37:16 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 static void		read_input
-	(t_list **a, t_list **b, int opts)
+	(t_stack *a, t_stack *b, int opts)
 {
 	char		*line;
 	t_stack_op	*op;
@@ -26,7 +26,7 @@ static void		read_input
 	fst = g_stack_ops;
 	lst = fst + sizeof(*op) * (LEN(g_stack_ops) - 1);
 	if (opts & 1)
-		display_both_stacks(*a, *b);
+		display_both_stacks(a, b);
 	while ((ret = get_next_line(1, &line)) >= 0)
 	{
 		if (!ret)
@@ -40,7 +40,7 @@ static void		read_input
 		ft_strdel(&line);
 		apply_stack_op(op, a, b, NULL);
 		if (opts & 1)
-			display_both_stacks(*a, *b);
+			display_both_stacks(a, b);
 	}
 }
 
@@ -68,8 +68,8 @@ static char		**get_args
 int				main
 	(int argc, char **argv)
 {
-	t_list		*a;
-	t_list		*b;
+	t_stack		*a;
+	t_stack		*b;
 	char		**args;
 	int			opts;
 
@@ -82,9 +82,11 @@ int				main
 	if (*args && !ft_strcmp(*args, "-c") && args++)
 		opts += 2;
 	a = build_stack(args);
-	b = NULL;
-	read_input(&a, &b, opts);
-	if (check_sorted(a))
+	if (!(b = ft_memalloc(sizeof(*b))))
+		ps_exit();
+	display_both_stacks(a, b);
+	read_input(a, b, opts);
+	if (check_sorted(a->head))
 	{
 		ft_putendl("OK");
 		return (0);
