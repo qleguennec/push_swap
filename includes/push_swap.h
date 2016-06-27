@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:08:52 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/26 21:32:19 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/27 13:56:31 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct		s_stack
 {
 	t_lst			*head;
 	t_lst			*last;
+	size_t			size;
 }					t_stack;
 
 typedef struct		s_stack_op

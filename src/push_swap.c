@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/26 16:32:31 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/27 13:55:13 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,16 @@ int				main
 	t_stack		*a;
 	t_stack		*b;
 	char		**args;
-	t_ps_conf	*c;
+	t_ps_conf	c;
 
 	if (argc < 2)
 		ps_exit();
 	args = get_args(argc, argv);
-	if (!(c = ft_memalloc(sizeof(*c))))
-		ps_exit();
+	ft_bzero(&c, sizeof(c));
 	if (*args && !ft_strcmp(*args, "-v") && args++)
-		c->verbose = 1;
+		c.verbose = 1;
 	a = build_stack(args);
 	if (!(b = ft_memalloc(sizeof(*b))))
 		ps_exit();
-	c->n_elems = ft_lstsize(a->head);
-	return (ps_main(a, b, c));
+	return (ps_main(a, b, &c));
 }

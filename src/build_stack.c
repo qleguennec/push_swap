@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/26 20:49:48 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/27 13:54:57 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_stack			*build_stack
 			l->next = s->last;
 		s->last->prev = l;
 		arg++;
+		s->size++;
 	}
 	return (s);
 }

@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 20:10:57 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/27 01:14:55 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/27 13:54:27 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			stack_s
 	t_lst	*tmp;
 
 	(void)null;
-	if (!s->head || !s->head->next)
+	if (s->size < 2)
 		return (0);
 	if (s->head->next == s->last)
 		s->last = s->head;
@@ -41,8 +41,10 @@ int			stack_p
 {
 	t_lst	*tmp;
 
-	if (!a->head)
+	if (!a->size)
 		return (0);
+	a->size--;
+	b->size++;
 	tmp = a->head;
 	if (a->head->next && a->head->next->next)
 		a->head->next->prev = tmp->next;
@@ -68,7 +70,7 @@ int			stack_r
 	t_lst	*tmp;
 
 	(void)null;
-	if (!s->head->next || !s->head->next)
+	if (s->size < 2)
 		return (0);
 	if (!s->head->next->next)
 		return (stack_s(s, NULL));
@@ -89,7 +91,7 @@ int			stack_rev_r
 	t_lst	*tmp;
 
 	(void)null;
-	if (!s->head->next || !s->head->next)
+	if (!s->size < 2)
 		return (0);
 	if (!s->head->next->next)
 		return (stack_s(s, NULL));
