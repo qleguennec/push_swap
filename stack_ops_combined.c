@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lcmp.c                                             :+:      :+:    :+:   */
+/*   stack_ops_combined.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/25 02:46:00 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/26 20:50:54 by qle-guen         ###   ########.fr       */
+/*   Created: 2016/06/24 22:43:43 by qle-guen          #+#    #+#             */
+/*   Updated: 2016/06/30 00:24:55 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "push_swap.h"
 
-int			lcmp
-	(t_list *a, t_list *b)
+int			stack_ss
+	(t_stack *a, t_stack *b)
 {
-	if (a->data == b->data)
-		return (0);
-	if (a->data < b->data)
-		return (-1);
-	return (1);
+	return (stack_s(a, NULL) + stack_s(b, NULL));
+}
+
+int			stack_rr
+	(t_stack *a, t_stack *b)
+{
+	return (stack_r(a, NULL) + stack_r(b, NULL));
+}
+
+int			stack_rev_rr
+	(t_stack *a, t_stack *b)
+{
+	return (stack_rev_r(a, NULL) + stack_rev_r(b, NULL));
 }

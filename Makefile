@@ -1,19 +1,11 @@
 # Directories
 PROJECT		=	push_swap
 BINDIR		?=	.
-SRCDIR		?=	src
 BUILDDIR	?=	build
-LIBDIR		?=	$(BUILDDIR)
-DEPSDIR		?=	lib
-INCLUDE		+=	includes
-INCLUDE		+=	$(addprefix $(DEPSDIR)/,$(addsuffix /includes,$(LIBSRC)))
-CHECKER		=	checker
-PUSH_SWAP	=	push_swap
-NAME		=	$(CHECKER) $(PUSH_SWAP)
+NAME		=	$(BINDIR)/push_swap $(BINDIR)/checker
 
 # Compiler options
 CC			=	clang
-LIBFLAGS	=	$(subst lib,-l,$(LIBSRC))
 CFLAGS		=	$(addprefix -I,$(INCLUDE)) -Wall -Wextra -Werror -g
 
 # Color output
@@ -27,73 +19,57 @@ CYAN		=	"\033[0;36m"
 WHITE		=	"\033[0;37m"
 END			=	"\033[0m"
 
-include src.mk
+SRC += cmp.c
+SRC += exit.c
+SRC += sort_quick.c
+SRC += stack_apply_op.c
+SRC += stack_build.c
+SRC += stack_io.c
+SRC += stack_ops.c
+SRC += stack_ops_combined.c
 
-# Libraries
-LIBSRC		=	libgnl libvect libft
+LIB += libvect.a
+LIB += libgnl.a
+LIB += libft.a
 
 OBJECTS		=	$(addprefix $(BUILDDIR)/, $(SRC:%.c=%.o))
-LIBS		=	$(addprefix $(LIBDIR)/, $(addsuffix .a,$(LIBSRC)))
+LIBRARIES	=	$(addprefix $(BUILDDIR)/, $(LIB))
+LIBLINK		=	$(addprefix -l, $(LIB:lib%.a=%))
 
-all: deps $(NAME)
+all: $(NAME)
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c
-	@[ -d $(BUILDDIR) ] || mkdir $(BUILDDIR); true
+$(BUILDDIR)/%.a: %
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	BINDIR=$(CURDIR)/$(BUILDDIR) BUILDDIR=$(CURDIR)/$(BUILDDIR) \
+		   make --no-print-directory -C $<
+
+$(BUILDDIR)/%.o: %.c
+	@[ -d $(BUILDDIR) ] || mkdir $(BUILDDIR)
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo $(GREEN)+++ obj:'\t'$(END)$(BUILDDIR)/$(YELLOW)'\t'$(@F)$(END)
 
-$(LIBDIR)/%.a: $(DEPSDIR)/%
-	@[ -d $(BUILDDIR)/$* ] || mkdir -p $(BUILDDIR)/$*; true
-	@										\
-		DEPSDIR=$(CURDIR)/$(DEPSDIR)		\
-		BINDIR=$(CURDIR)/$(BUILDDIR)		\
-		BUILDDIR=$(CURDIR)/$(BUILDDIR)/$*	\
-		LIBDIR=$(CURDIR)/$(LIBDIR)			\
-		make -s -C $< > /dev/null
-	@echo $(GREEN)+++ static lib:'\t'$(END)$(LIBDIR)/'\t'$(CYAN)$(@F)$(END)
+$(BINDIR)/push_swap: $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBRARIES)
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@$(CC) $(CFLAGS) -L$(BUILDDIR)									\
+		$(LIBLINK) $(BUILDDIR)/push_swap.o $(OBJECTS) $(LIBLINK)	\
+		-o $(BINDIR)/push_swap
+	@echo "OK\tpush_swap"
 
-$(PUSH_SWAP): $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBS)
-	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBFLAGS) -o $@
-	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)push_swap$(END)
+$(BINDIR)/checker: $(OBJECTS) $(BUILDDIR)/checker.o $(LIBRARIES)
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@$(CC) $(CFLAGS) -L$(BUILDDIR)									\
+		$(LIBLINK) $(BUILDDIR)/checker.o $(OBJECTS) $(LIBLINK)		\
+		-o $(BINDIR)/checker
+	@echo "OK\tchecker"
 
-$(CHECKER): $(OBJECTS) $(BUILDDIR)/checker.o $(LIBS)
-	$(CC) $(CFLAGS) -L$(BUILDDIR) $(OBJECTS) $(BUILDDIR)/checker.o $(LIBFLAGS) -o $@
-	@echo $(GREEN)+++ target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)checker$(END)
-
-$(DEPSDIR)/%:
-	@git clone http://github.com/qleguennec/$(@F).git $@
-	@make -s -C $@ purge
-
-.PHONY: clean fclean re deps clean-deps re-deps test rendu purge get-%
+.PHONY: clean fclean re
 
 clean:
-	@rm $(LIBS) 2> /dev/null && \
-	echo $(RED)--- static lib:'\t'$(END)$(LIBDIR)/'\t'$(CYAN)$(LIBS:$(LIBDIR)/%.a=%.a); true
-	@rm $(OBJECTS) 2> /dev/null	&& \
-	echo $(RED)--- obj:'\t'$(END)$(BUILDDIR)/'\t'$(YELLOW)$(OBJECTS:$(BUILDDIR)/%=%)$(END); true
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	rm -rf $(BUILDDIR)
 
 fclean: clean
-	@rm -rf $(NAME) 2> /dev/null && \
-	echo $(RED)--- target:'\t'$(END)$(BINDIR)/'\t'$(BLUE)$(NAME)$(END); true
+	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	rm -rf $(NAME)
 
 re: fclean all
-
-deps: $(addprefix $(DEPSDIR)/, $(LIBSRC))
-
-clean-deps:
-	@rm -rf $(DEPSDIR)
-
-re-deps: clean-deps deps
-
-test:
-	@test/test.sh $(ARGS)
-	@test/test-functions-used.sh
-
-rendu:
-	@util/rendu.sh
-
-purge:
-	@util/purge.sh
-
-get-%:
-	@echo '$($*)'

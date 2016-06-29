@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_stack.c                                      :+:      :+:    :+:   */
+/*   stack_build.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/27 13:54:57 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/30 00:24:45 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
+#include "libft/libft.h"
+#include "push_swap.h"
 #include <limits.h>
 
 static int		isvalid_value
@@ -42,11 +43,11 @@ static long		ft_atol
 	return (neg ? - ret : ret);
 }
 
-t_stack			*build_stack
+t_stack			*stack_build
 	(char **arg)
 {
 	t_stack		*s;
-	t_lst		*l;
+	t_node		*l;
 	long		x;
 
 	if (!(s = ft_memalloc(sizeof(*s))))

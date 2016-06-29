@@ -6,43 +6,13 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/27 13:55:33 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/30 01:08:43 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
-#include <libgnl.h>
+#include "libft/libft.h"
+#include "push_swap.h"
 #include <stdlib.h>
-
-static void		read_input
-	(t_stack *a, t_stack *b, int opts)
-{
-	char		*line;
-	t_stack_op	*op;
-	int			ret;
-	void		*fst;
-	void		*lst;
-
-	fst = g_stack_ops;
-	lst = fst + sizeof(*op) * (LEN(g_stack_ops) - 1);
-	if (opts & 1)
-		display_both_stacks(a, b);
-	while ((ret = get_next_line(1, &line)) >= 0)
-	{
-		if (!ret)
-			break ;
-		if (ret < 0 || ft_strlen(line) > 3)
-			ps_exit();
-		if (!ft_strcmp(line, ""))
-			break ;
-		if (!(op = ft_find(line, fst, lst, sizeof(*op))))
-			ps_exit();
-		ft_strdel(&line);
-		apply_stack_op(op, a, b, NULL);
-		if (opts & 1)
-			display_both_stacks(a, b);
-	}
-}
 
 static char		**get_args
 	(int argc, char **argv)
@@ -65,33 +35,30 @@ static char		**get_args
 	return (ret);
 }
 
+static int		ps_main
+	(t_stack *a, t_stack *b, t_ps_conf *c)
+{
+	sort_quick(a, b, c);
+	stack_display_ops(c->log);
+	return (0);
+}
+
 int				main
 	(int argc, char **argv)
 {
 	t_stack		*a;
 	t_stack		*b;
 	char		**args;
-	int			opts;
+	t_ps_conf	c;
 
 	if (argc < 2)
 		ps_exit();
 	args = get_args(argc, argv);
-	opts = 0;
-	if (*args && !ft_strcmp(*args, "-v") && args++)
-		opts += 1;
-	if (*args && !ft_strcmp(*args, "-c") && args++)
-		opts += 2;
-	a = build_stack(args);
+	ft_bzero(&c, sizeof(c));
+	a = stack_build(args);
 	if (!(b = ft_memalloc(sizeof(*b))))
 		ps_exit();
-	display_both_stacks(a, b);
-	read_input(a, b, opts);
-	if (check_sorted(a->head))
-	{
-		ft_putendl("OK");
-		return (0);
-	}
-	else
-		ft_putendl("KO");
-	return (1);
+	if (!(c.log = ft_memalloc(sizeof(*c.log))))
+		ps_exit();
+	return (ps_main(a, b, &c));
 }

@@ -6,18 +6,18 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 20:10:57 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/27 13:54:27 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/06/29 23:51:02 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
+#include "push_swap.h"
 
 // remove assertions
 
 int			stack_s
 	(t_stack *s, t_stack *null)
 {
-	t_lst	*tmp;
+	t_node	*tmp;
 
 	(void)null;
 	if (s->size < 2)
@@ -39,7 +39,7 @@ int			stack_s
 int			stack_p
 	(t_stack *a, t_stack *b)
 {
-	t_lst	*tmp;
+	t_node	*tmp;
 
 	if (!a->size)
 		return (0);
@@ -67,7 +67,7 @@ int			stack_p
 int			stack_r
 	(t_stack *s, t_stack *null)
 {
-	t_lst	*tmp;
+	t_node	*tmp;
 
 	(void)null;
 	if (s->size < 2)
@@ -88,10 +88,10 @@ int			stack_r
 int			stack_rev_r
 	(t_stack *s, t_stack *null)
 {
-	t_lst	*tmp;
+	t_node	*tmp;
 
 	(void)null;
-	if (!s->size < 2)
+	if (s->size < 2)
 		return (0);
 	if (!s->head->next->next)
 		return (stack_s(s, NULL));
