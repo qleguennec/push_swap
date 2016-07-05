@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:08:52 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/04 22:32:24 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/05 23:22:13 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 typedef struct		s_node
 {
 	int				data;
+	char			tok;
 	struct s_node	*prev;
 	struct s_node	*next;
 }					t_node;
@@ -41,7 +42,14 @@ typedef struct		s_stack_op
 typedef struct		s_ps_conf
 {
 	t_vect			*log;
+	t_stack			*sorted;
 }					t_ps_conf;
+
+typedef struct		s_qsort
+{
+	size_t			low;
+	size_t			high;
+}					t_qsort;
 
 void				ps_exit(void);
 int					stack_s(t_stack *s, t_stack *null);
@@ -57,12 +65,14 @@ void				stack_display_both(t_stack *a, t_stack *b);
 int					stack_apply_op(t_stack_op *op, t_stack *a, t_stack *b);
 int					stack_apply(int n, t_stack *a, t_stack *b, t_ps_conf *c);
 void				stack_display_ops(t_vect *log);
+void				stack_insert_sorted(t_stack *s, t_node *n);
 int					cmp(t_node *a, t_node *b);
 int					cmp_front(int x, t_node *a, t_node *cmp);
 int					cmp_back(int x, t_node *a, t_node *cmp);
 int					sorted(t_node *n);
 int					rev_sorted(t_node *n);
 int					sort_quick(t_stack *a, t_stack *b, t_ps_conf *c);
+t_stack				*sort_pre(t_node *n);
 int					log_reduce(int new, t_vect *l);
 
 # define OP(x)	stack_apply(x, a, b, c)
