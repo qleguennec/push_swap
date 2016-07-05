@@ -40,24 +40,24 @@ LIBLINK		=	$(addprefix -l, $(LIB:lib%.a=%))
 all: $(NAME)
 
 $(BUILDDIR)/%.a: %
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	BINDIR=$(CURDIR)/$(BUILDDIR) BUILDDIR=$(CURDIR)/$(BUILDDIR) \
 		   make --no-print-directory -C $<
 
 $(BUILDDIR)/%.o: %.c
 	@[ -d $(BUILDDIR) ] || mkdir $(BUILDDIR)
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BINDIR)/push_swap: $(OBJECTS) $(BUILDDIR)/push_swap.o $(LIBRARIES)
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	@$(CC) $(CFLAGS) -L$(BUILDDIR)									\
 		$(LIBLINK) $(BUILDDIR)/push_swap.o $(OBJECTS) $(LIBLINK)	\
 		-o $(BINDIR)/push_swap
 	@echo "OK\tpush_swap"
 
 $(BINDIR)/checker: $(OBJECTS) $(BUILDDIR)/checker.o $(LIBRARIES)
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	@$(CC) $(CFLAGS) -L$(BUILDDIR)									\
 		$(LIBLINK) $(BUILDDIR)/checker.o $(OBJECTS) $(LIBLINK)		\
 		-o $(BINDIR)/checker
@@ -66,11 +66,11 @@ $(BINDIR)/checker: $(OBJECTS) $(BUILDDIR)/checker.o $(LIBRARIES)
 .PHONY: clean fclean re
 
 clean:
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	rm -rf $(BUILDDIR)
 
 fclean: clean
-	@echo -n $(BLUE)$(PROJECT)$(END)'\t'
+	@printf $(BLUE)$(PROJECT)$(END)'\t'
 	rm -rf $(NAME)
 
 re: fclean all
