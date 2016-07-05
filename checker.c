@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/30 01:44:39 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/05 01:46:42 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static void		read_input
 
 	fst = g_stack_ops;
 	lst = fst + sizeof(*op) * (LEN(g_stack_ops) - 1);
-	if (opts & 1)
-		stack_display_both(a, b);
 	while ((ret = get_next_line(0, &line)) >= 0)
 	{
 		if (!ret)
@@ -38,11 +36,13 @@ static void		read_input
 			break ;
 		if (!(op = ft_find(line, fst, lst, sizeof(*op))))
 			ps_exit();
-		ft_putendl(line);
-		ft_memdel((void **)&line);
 		stack_apply_op(op, a, b);
 		if (opts & 1)
+		{
+			ft_putendl(line);
 			stack_display_both(a, b);
+		}
+		ft_memdel((void **)&line);
 	}
 }
 
@@ -67,6 +67,18 @@ static char		**get_args
 	return (ret);
 }
 
+static int		check_ok
+	(t_stack *a, t_stack *b)
+{
+	if (b->size || !sorted(a->head))
+	{
+		ft_putendl("KO");
+		return (1);
+	}
+	ft_putendl("OK");
+	return (0);
+}
+
 int				main
 	(int argc, char **argv)
 {
@@ -82,15 +94,10 @@ int				main
 	if (*args && !ft_strcmp(*args, "-v") && args++)
 		opts += 1;
 	a = stack_build(args);
+	if (!a->size)
+		ps_exit();
 	if (!(b = ft_memalloc(sizeof(*b))))
 		ps_exit();
 	read_input(a, b, opts);
-	if (sorted(b->head))
-	{
-		ft_putendl("OK");
-		return (0);
-	}
-	else
-		ft_putendl("KO");
-	return (1);
+	return (check_ok(a, b));
 }

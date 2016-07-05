@@ -27,6 +27,7 @@ SRC += stack_build.c
 SRC += stack_io.c
 SRC += stack_ops.c
 SRC += stack_ops_combined.c
+SRC += log_reduce.c
 
 LIB += libvect.a
 LIB += libgnl.a

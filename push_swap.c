@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/30 01:08:43 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/03 16:51:11 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int				main
 	if (!(b = ft_memalloc(sizeof(*b))))
 		ps_exit();
 	if (!(c.log = ft_memalloc(sizeof(*c.log))))
+		ps_exit();
+	if (!vect_req(c.log, a->size * sizeof(int)))
 		ps_exit();
 	return (ps_main(a, b, &c));
 }

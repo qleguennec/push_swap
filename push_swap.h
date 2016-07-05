@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:08:52 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/30 01:00:22 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/04 22:32:24 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int					cmp(t_node *a, t_node *b);
 int					cmp_front(int x, t_node *a, t_node *cmp);
 int					cmp_back(int x, t_node *a, t_node *cmp);
 int					sorted(t_node *n);
+int					rev_sorted(t_node *n);
 int					sort_quick(t_stack *a, t_stack *b, t_ps_conf *c);
+int					log_reduce(int new, t_vect *l);
 
 # define OP(x)	stack_apply(x, a, b, c)
 # define PA		0

@@ -6,60 +6,78 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 12:20:34 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/30 00:46:35 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/05 02:59:39 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
 #include "push_swap.h"
 #include "libft/libft.h"
+#include <stdlib.h>
 
-int sort_a(t_stack*, t_stack*, t_ps_conf *c);
+int sort_a(t_stack*, t_stack*, t_ps_conf *c, t_node *piv);
+
+t_node		*pick_pivot
+	(t_node *head, unsigned int size)
+{
+	int		ints[3];
+	int		max;
+	int		min;
+	int		med;
+
+	if (!head || size <= 1)
+		return (NULL);
+	ints[0] = rand() % size;
+	ints[1] = rand() % size;
+	ints[2] = rand() % size;
+	max = MAX(MAX(ints[0], ints[1]), ints[2]);
+	min = MIN(MIN(ints[0], ints[1]), ints[2]);
+	med = ints[0] ^ ints[1] ^ ints[2] ^ max ^ min;
+	while (med)
+	{
+		head = head->next;
+		med--;
+	}
+	return (head);
+}
 
 int			sort_b
-	(t_stack *a, t_stack *b, t_ps_conf *c)
+	(t_stack *a, t_stack *b, t_ps_conf *c, t_node *piv)
 {
-	t_node	*cmp_node;
-
-	assert(b && b->head);
-	cmp_node = b->head;
-	if (cmp_front(-1, cmp_node->next, cmp_node))
+	if (piv == b->head)
 		return (1);
-	OP(SB);
-	assert(b->head->next == cmp_node);
-	if (cmp(cmp_node, cmp_node->prev) < 0)
-		return (OP(PA) && sort_b(a, b, c));
-	return (OP(RRB) && sort_b(a, b, c));
+	if (cmp(piv, b->head) < 0)
+		return (OP(PA) && sort_b(a, b, c, piv));
+	return (OP(RRB) && sort_b(a, b, c, piv));
 }
 
 int			sort_a
-	(t_stack *a, t_stack *b, t_ps_conf *c)
+	(t_stack *a, t_stack *b, t_ps_conf *c, t_node *piv)
 {
-	t_node	*cmp_node;
-
-	assert(a && a->head);
-	cmp_node = a->head;
-	if (cmp_front(1, cmp_node->next, cmp_node))
+	if (piv == a->head)
 		return (1);
-	OP(SA);
-	assert(a->head->next == cmp_node);
-	if (cmp(cmp_node, cmp_node->prev) >= 0)
-		return (OP(PB) && sort_b(a, b, c) && sort_a(a, b, c));
-	return (OP(RRA) && sort_a(a, b, c));
+	if (cmp(piv, a->head) >= 0)
+		return (OP(PB) && sort_a(a, b, c, piv));
+	return (OP(RRA) && sort_a(a, b, c, piv));
 }
 
 int			sort_quick
 	(t_stack *a, t_stack *b, t_ps_conf *c)
 {
-	t_node	*cmp_node_a;
+	t_node	*piv_a;
+	t_node	*piv_b;
 
-	cmp_node_a = a->head;
-	while (a->head)
+	assert(a && b && c);
+	piv_a = pick_pivot(a->head, a->size);
+	piv_b = pick_pivot(b->head, b->size);
+	if (piv_a)
+		sort_a(a, b, c, piv_a);
+	if (piv_b)
+		sort_b(a, b, c, piv_b);
+	if (sorted(a->head) && rev_sorted(b->head))
 	{
-		sort_a(a, b, c);
-		OP(PB);
-		sort_b(a, b, c);
+		while (b->size)
+			OP(PA);
+		return (1);
 	}
-	return (1);
+	return (sort_quick(a, b, c));
 }

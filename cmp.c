@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/25 09:43:00 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/06/30 01:51:11 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/03 12:41:35 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int			cmp
 	(t_node *a, t_node *b)
 {
+	assert(a && b);
 	if (a->data == b->data)
 		return (0);
 	if (a->data < b->data)
@@ -62,7 +63,17 @@ int			sorted
 {
 	if (!n || !n->next)
 		return (1);
-	if (cmp(n, n->next) < 0)
+	if (cmp(n, n->next) > 0)
 		return (0);
 	return (sorted(n->next));
+}
+
+int			rev_sorted
+	(t_node *n)
+{
+	if (!n || !n->next)
+		return (1);
+	if (cmp(n, n->next) < 0)
+		return (0);
+	return (rev_sorted(n->next));
 }
