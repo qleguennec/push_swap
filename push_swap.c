@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/03 16:51:11 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/05 23:25:43 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static char		**get_args
 static int		ps_main
 	(t_stack *a, t_stack *b, t_ps_conf *c)
 {
-	sort_quick(a, b, c);
-	stack_display_ops(c->log);
+	(void)a;
+	(void)b;
+	stack_display(c->sorted);
 	return (0);
 }
 
@@ -62,5 +63,6 @@ int				main
 		ps_exit();
 	if (!vect_req(c.log, a->size * sizeof(int)))
 		ps_exit();
+	c.sorted = sort_pre(a->head);
 	return (ps_main(a, b, &c));
 }

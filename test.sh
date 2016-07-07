@@ -11,5 +11,9 @@ fi
 set -e
 make
 time ./push_swap $ARGS > psout
-cat psout | ./checker -v $ARGS
+if [ -n "$DEBUG" ]; then
+	cat psout | ./checker -v $ARGS
+else
+	cat psout | ./checker $ARGS
+fi
 wc -l psout
