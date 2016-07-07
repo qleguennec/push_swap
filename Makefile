@@ -31,6 +31,7 @@ SRC += log_reduce.c
 
 LIB += libvect.a
 LIB += libgnl.a
+LIB += libprintf.a
 LIB += libft.a
 
 OBJECTS		=	$(addprefix $(BUILDDIR)/, $(SRC:%.c=%.o))
