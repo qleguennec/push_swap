@@ -6,11 +6,10 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/05 23:25:43 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/17 13:03:21 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
 #include <stdlib.h>
 
@@ -38,9 +37,15 @@ static char		**get_args
 static int		ps_main
 	(t_stack *a, t_stack *b, t_ps_conf *c)
 {
-	(void)a;
-	(void)b;
-	stack_display(c->sorted);
+	size_t		i;
+
+	i = 0;
+	while (i < a->size)
+	{
+		ft_printf("%d%c", c->sorted[i], i + 1 == a->size ? '\n' : ' ');
+		i++;
+	}
+	sort_quick(a, b, c);
 	return (0);
 }
 
@@ -57,12 +62,12 @@ int				main
 	args = get_args(argc, argv);
 	ft_bzero(&c, sizeof(c));
 	a = stack_build(args);
+	c.sorted = sort_pre(a->head, a->size);
 	if (!(b = ft_memalloc(sizeof(*b))))
 		ps_exit();
 	if (!(c.log = ft_memalloc(sizeof(*c.log))))
 		ps_exit();
 	if (!vect_req(c.log, a->size * sizeof(int)))
 		ps_exit();
-	c.sorted = sort_pre(a->head);
 	return (ps_main(a, b, &c));
 }

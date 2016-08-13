@@ -6,11 +6,10 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/25 09:43:00 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/03 12:41:35 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/07 20:27:51 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
 
 int			cmp

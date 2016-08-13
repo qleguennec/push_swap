@@ -19,21 +19,22 @@ CYAN		=	"\033[0;36m"
 WHITE		=	"\033[0;37m"
 END			=	"\033[0m"
 
-SRC += stack_ops.c
-SRC += stack_insert_sorted.c
-SRC += stack_build.c
-SRC += log_reduce.c
-SRC += exit.c
-SRC += stack_apply_op.c
-SRC += stack_ops_combined.c
-SRC += cmp.c
-SRC += sort_pre.c
-#SRC += sort_quick.c
-SRC += stack_io.c
 
-LIB += libvect.a
+SRC += arr_insert_sorted.c
+SRC += cmp.c
+SRC += exit.c
+SRC += log_reduce.c
+SRC += sort_pre.c
+SRC += sort_quick.c
+SRC += stack_build.c
+SRC += stack_io.c
+SRC += stack_op.c
+SRC += stack_op_apply.c
+SRC += stack_op_compose.c
+
 LIB += libgnl.a
 LIB += libprintf.a
+LIB += libvect.a
 LIB += libft.a
 
 OBJECTS		=	$(addprefix $(BUILDDIR)/, $(SRC:%.c=%.o))

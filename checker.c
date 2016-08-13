@@ -6,44 +6,37 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 16:53:06 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/05 01:46:42 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/17 11:46:04 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "libgnl/libgnl.h"
 #include "push_swap.h"
+#include "libgnl/libgnl.h"
 #include <stdlib.h>
 
-static void		read_input
-	(t_stack *a, t_stack *b, int opts)
+static void		main_loop
+	(t_stack *a, t_stack *b, t_vect *gnl, t_ps_conf *c)
 {
-	char		*line;
 	t_stack_op	*op;
 	int			ret;
-	void		*fst;
-	void		*lst;
+	size_t		s;
 
-	fst = g_stack_ops;
-	lst = fst + sizeof(*op) * (LEN(g_stack_ops) - 1);
-	while ((ret = get_next_line(0, &line)) >= 0)
-	{
-		if (!ret)
-			break ;
-		if (ret < 0 || ft_strlen(line) > 3)
-			ps_exit();
-		if (!ft_strcmp(line, ""))
-			break ;
-		if (!(op = ft_find(line, fst, lst, sizeof(*op))))
-			ps_exit();
-		stack_apply_op(op, a, b);
-		if (opts & 1)
-		{
-			ft_putendl(line);
-			stack_display_both(a, b);
-		}
-		ft_memdel((void **)&line);
-	}
+	s = c->log->used;
+	ret = get_next_line(0, gnl, c->log);
+	if (ret < 0)
+		ps_exit();
+	if (!ret)
+		return ;
+	vect_mset_end(c->log, '\0', 1);
+	if (!(op = FIND(c->log->data + s, g_stack_ops)))
+		return ((void)ps_exit());
+	stack_apply_op(op, a, b);
+	((char *)c->log->data)[c->log->used - 1] = '\n';
+	if (c->opts & 1)
+		stack_display_both(a, b, c);
+	else
+		c->log->used = 0;
+	main_loop(a, b, gnl, c);
 }
 
 static char		**get_args
@@ -67,15 +60,15 @@ static char		**get_args
 	return (ret);
 }
 
-static int		check_ok
+static int		check_sorted
 	(t_stack *a, t_stack *b)
 {
 	if (b->size || !sorted(a->head))
 	{
-		ft_putendl("KO");
+		ft_printf("KO\n");
 		return (1);
 	}
-	ft_putendl("OK");
+	ft_printf("OK\n");
 	return (0);
 }
 
@@ -84,20 +77,23 @@ int				main
 {
 	t_stack		*a;
 	t_stack		*b;
+	t_vect		gnl;
 	char		**args;
-	int			opts;
+	t_ps_conf	c;
 
 	if (argc < 2)
 		ps_exit();
 	args = get_args(argc, argv);
-	opts = 0;
+	ft_bzero(&c, sizeof(c));
 	if (*args && !ft_strcmp(*args, "-v") && args++)
-		opts += 1;
+		c.opts += 1;
 	a = stack_build(args);
-	if (!a->size)
-		ps_exit();
-	if (!(b = ft_memalloc(sizeof(*b))))
-		ps_exit();
-	read_input(a, b, opts);
-	return (check_ok(a, b));
+	if (!a->size || !(b = ft_memalloc(sizeof(*b)))
+		|| !(c.log = ft_memalloc(sizeof(*c.log))))
+		return (ps_exit());
+	ft_bzero(&gnl, sizeof(gnl));
+	main_loop(a, b, &gnl, &c);
+	if (c.opts & 1)
+		vect_print(1, c.log, 8192);
+	return (check_sorted(a, b));
 }

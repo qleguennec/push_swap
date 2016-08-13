@@ -6,23 +6,27 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/05 22:36:43 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/05 23:26:06 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/17 10:35:54 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft/libft.h"
+#include <limits.h>
 
-t_stack		*sort_pre
-	(t_node *n)
+long		*sort_pre
+	(t_node *n, size_t size)
 {
-	t_stack	*ret;
+	size_t	i;
+	long	*ret;
 
-	if (!(ret = ft_memalloc(sizeof(*ret))))
+	if (!(ret = ft_memalloc(sizeof(*ret) * size)))
 		ps_exit();
+	i = 0;
+	while (i < size)
+		ret[i++] = ((long)INT_MAX) + 1;
 	while (n)
 	{
-		stack_insert_sorted(ret, n);
+		arr_insert_sorted(ret, n->data, size);
 		n = n->next;
 	}
 	return (ret);

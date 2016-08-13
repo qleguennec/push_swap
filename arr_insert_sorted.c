@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   arr_insert_sorted.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/06/25 02:08:48 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/07 20:46:24 by qle-guen         ###   ########.fr       */
+/*   Created: 2016/07/10 16:03:33 by qle-guen          #+#    #+#             */
+/*   Updated: 2016/07/17 10:34:20 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
+#include "push_swap.h"
+#include <limits.h>
 
-int			ps_exit(void)
+void		arr_insert_sorted
+	(long *arr, long x, size_t size)
 {
-	write(2, "Erreur\n", 7);
-	exit(1);
-	return (1);
+	size_t	i;
+
+	i = 0;
+	while (i < size && arr[i] != ((long)INT_MAX + 1) && arr[i] < x)
+		i++;
+	if (arr[i] != ((long)INT_MAX + 1))
+		ft_memmove(&arr[i + 1], &arr[i], (size - i - 1) * sizeof(long));
+	arr[i] = x;
 }

@@ -6,11 +6,10 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/09 17:11:39 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/07/04 18:01:21 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/07/16 00:33:43 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
 #include <limits.h>
 
@@ -62,7 +61,7 @@ t_stack			*stack_build
 			ps_exit();
 		s->last->data = (int)x;
 		if (!s->head)
-			s->head = l;
+			s->head = s->last;
 		if (l)
 			l->next = s->last;
 		s->last->prev = l;
